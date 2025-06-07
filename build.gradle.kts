@@ -27,6 +27,9 @@ tasks.withType<Jar> {
     })
 }
 
+tasks.register("stage") {
+    dependsOn("build")
+}
 
 tasks.test {
     useJUnitPlatform()
