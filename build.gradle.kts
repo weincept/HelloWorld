@@ -1,7 +1,7 @@
-import groovy.xml.dom.DOMCategory.attributes
-
 plugins {
-    id("java")
+    id("org.jetbrains.kotlin.jvm") version "1.9.23"
+    id("application")
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "org.example"
@@ -12,26 +12,23 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "org.example.Main"
-    }
-
-    // Include dependencies in the jar (fat jar)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
-}
-
-tasks.register("stage") {
-    dependsOn("build")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
 
+application {
+    mainClass.set("org.example.Main") // Or use full package if applicable
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "Main"
+    }
+}
+
+tasks.register("stage") {
+    dependsOn("shadowJar")
+}
