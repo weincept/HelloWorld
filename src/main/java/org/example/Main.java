@@ -22,7 +22,7 @@ public class Main {
 
     static class MyHandler implements HttpHandler {
         public void handle(HttpExchange exchange) throws IOException {
-            String response = "Hello from Java on Koyeb!";
+            String response = "Hello from Java!";
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
